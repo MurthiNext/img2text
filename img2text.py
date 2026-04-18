@@ -20,9 +20,9 @@ if __name__ == "__main__":
     )
     for a, b, c in zip(ascii_result, braille_result, color_blocks_result):
         print(a + "   " + b + "   " + c)
-    with open('ascii_result.txt', 'w', encoding='utf-8') as a:
+    with open('a.txt', 'w', encoding='utf-8') as a:
         a.write('\n'.join(ascii_result))
-    with open('braille_result.txt', 'w', encoding='utf-8') as b:
+    with open('b.txt', 'w', encoding='utf-8') as b:
         b.write('\n'.join(braille_result))
-    with open('color_blocks_result.txt', 'w', encoding='utf-8') as c:
+    with open('c.txt', 'w', encoding='utf-8') as c:
         c.write('\n'.join(color_blocks_result))
