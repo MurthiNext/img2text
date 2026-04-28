@@ -55,6 +55,8 @@ img2text.exe [选项] <图片路径>
 | `-w, --width` | 输出字符宽度，默认 50 |
 | `-a, --alpha_threshold` | Alpha 通道阈值（0-255），低于此值视为透明，默认 128 |
 | `-c, --colored` | 标志，加上后输出带 ANSI 颜色的字符画；不加则输出纯文本 |
+| `-m, --mode` | 输出模式：`a`=ASCII, `b`=盲文, `c`=半色块；不指定则输出全部三种 |
+| `-o, --output` | 输出文件名；不指定则使用默认名称。未指定 mode 时会在后缀前自动添加 `_a`/`_b`/`_c` |
 
 ### 示例
 
@@ -67,15 +69,28 @@ python img2text.py logo.png -w 100 -a 200 -c
 
 # 简写形式
 python img2text.py logo.png -w 60 -c
+
+# 只输出 ASCII 模式
+python img2text.py logo.png -m a
+
+# 只输出盲文模式，并指定文件名
+python img2text.py logo.png -m b -o braille.txt
+
+# 输出三种模式，并指定基础文件名（生成 result_a.txt, result_b.txt, result_c.txt）
+python img2text.py logo.png -o result.txt
+
+# 组合使用：彩色 ASCII，宽度 80，指定输出文件名
+python img2text.py logo.png -w 80 -c -m a -o ascii_art.txt
 ```
 
 ### 输出说明
 
-- **终端显示**：三种风格的结果并排显示，每行依次为：ASCII 结果行 + 三个空格 + 盲文结果行 + 三个空格 + 半色块结果行
+- **终端显示**：若未指定 mode，三种风格的结果并排显示；若指定了 mode，仅显示该模式结果
 - **文件保存**：
-  - `a.txt` – ASCII 字符画
-  - `b.txt` – 盲文字符画
-  - `c.txt` – 半色块字符画
+  - 未指定 `-m` 和 `-o`：生成 `a.txt`、`b.txt`、`c.txt`
+  - 指定了 `-m` 未指定 `-o`：生成对应模式的默认文件（如 `-m a` 生成 `a.txt`）
+  - 指定了 `-m` 和 `-o`：生成单个指定文件（如 `-m a -o out.txt` 生成 `out.txt`）
+  - 未指定 `-m` 但指定了 `-o`：生成三个文件，在扩展名前自动添加后缀区分（如 `-o result.txt` 生成 `result_a.txt`、`result_b.txt`、`result_c.txt`）
 
 所有文件均以 UTF-8 编码保存，可直接在支持 ANSI 颜色的终端中查看或使用 `cat`/`type` 命令显示。
 
